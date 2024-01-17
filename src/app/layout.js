@@ -12,10 +12,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {/* <AppRouterCacheProvider> */}
+      <body className={inter.className} suppressHydrationWarning={true}>
+        <AppRouterCacheProvider>
           {children}
-        {/* </AppRouterCacheProvider> */}
+        </AppRouterCacheProvider>
       </body>
     </html>
   )

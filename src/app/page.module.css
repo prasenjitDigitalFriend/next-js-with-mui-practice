@@ -1,4 +1,4 @@
-.main__container{
+.main__container {
   min-width: 100vw;
   min-height: 100vh;
   margin-left: auto;
@@ -8,4 +8,5 @@
   justify-content: center;
   flex-direction: column;
   gap: 10px;
+  background-color: #181818
 }
