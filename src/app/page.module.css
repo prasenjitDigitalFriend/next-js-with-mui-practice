@@ -1,6 +1,6 @@
 .main__container {
   min-width: 100vw;
-  min-height: 100vh;
+  min-height: calc(100vh - 69px);
   margin-left: auto;
   margin-right: auto;
   display: flex;
@@ -8,5 +8,69 @@
   justify-content: center;
   flex-direction: column;
   gap: 10px;
-  background-color: #181818
+  background-color: #181818;
+  position: relative;
+}
+
+.main__container h1 {
+  font-size: 60px;
+  text-align: center;
+}
+
+.react__img {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  transform-origin: bottom center;
+  transition: all 0.3s ease-in-out;
+  animation: react_icon_animation 4.5s infinite ease-in-out;
+  opacity: 50%;
+}
+
+.js__img {
+  position: absolute;
+  bottom: 0;
+  right: 10%;
+  transition: all 0.3s ease-in-out;
+  animation: js_icon_animation 4s infinite ease-in-out;
+  opacity: 50%;
+}
+
+@keyframes react_icon_animation {
+  0% {
+    transform: translateY(0px) rotate(-30deg);
+  }
+
+  50% {
+    transform: translateY(30px) rotate(-30deg);
+  }
+
+  100% {
+    transform: translateY(-0px) rotate(-30deg);
+  }
+
+  ;
+}
+
+@keyframes js_icon_animation {
+  0% {
+    transform: translateY(0px) rotate(30deg);
+  }
+
+  50% {
+    transform: translateY(40px) rotate(30deg);
+  }
+
+  100% {
+    transform: translateY(-0px) rotate(30deg);
+  }
+
+  ;
+}
+
+@media only screen and (min-width: 768px) {
+  .react__img,
+  .js__img {
+    height: 50px;
+  }
 }

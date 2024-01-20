@@ -5,7 +5,6 @@ import styles from './page.module.css';
 import Button from '@mui/material/Button';
 import { AppBar, Box, ButtonGroup, Container, IconButton, Stack, Toolbar, Typography, Menu, MenuItem, Tooltip, Avatar, TextField } from '@mui/material';
 import { FavoriteBorder, Favorite, Adb as AdbIcon, Menu as MenuIcon } from '@mui/icons-material';
-import javaScript from '../images/javascript.png'
 import Image from 'next/image';
 
 const pages = ['Products', 'Pricing', 'Blog'];
@@ -159,20 +158,13 @@ export default function Home() {
         </Container>
       </AppBar>
       <div className={styles.main__container}>
-        <h1>Hi! Welcome To New Next App {names} </h1>
-        <TextField id="outlined-basic" label="Name" variant="outlined" defaultValue={""} placeholder='Enter Your Name' type='text' autoFocus autoComplete={false} />
-        <Stack direction={'row'} spacing={1}>
-          <h1> Make Favorite  </h1>
-          <IconButton size='large' color='primary' onClick={() => setIsFavorite(prev => !prev)} >
-            {isFavorite ? <Favorite /> : <FavoriteBorder />}
-          </IconButton >
-        </Stack>
-
+        <img alt='' src='/images/react.png' className={styles.react__img} />
+        <img alt='' src='/images/javascript.png' className={styles.js__img} />
+        <h1 style={{zIndex:1}} >Hi! <br/> Welcome {names} </h1>
+        <TextField id="outlined-basic" label="Name" variant="outlined" defaultValue={""} placeholder='Enter Your Name' type='text' autoFocus autoComplete="off" />
         <ButtonGroup variant='outlined'>
           <Button variant="outlined" onClick={() => setNames(document.getElementById("outlined-basic").value)}>Enter</Button>
         </ButtonGroup>
-        {/* <img src={javaScript}/> */}
-        <Image src={javaScript} alt='' />
       </div>
     </>
   )
