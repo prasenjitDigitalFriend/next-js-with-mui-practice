@@ -11,7 +11,7 @@ const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export default function Home() {
-  const [names, setNames] = useState('User1');
+  const [names, setNames] = useState('');
   const [isFavorite, setIsFavorite] = useState(false);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -31,9 +31,9 @@ export default function Home() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  return (
 
-    <>
+  const AppBarComponent = () => {
+    return (
       <AppBar position="static" sx={{ bgcolor: '#2a2a2a', }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -157,15 +157,43 @@ export default function Home() {
           </Toolbar>
         </Container>
       </AppBar>
+    )
+  }
+
+  return (
+    <>
+      <AppBarComponent />
       <div className={styles.main__container}>
-        <img alt='' src='/images/react.png' className={styles.react__img} />
-        <img alt='' src='/images/javascript.png' className={styles.js__img} />
-        <h1 style={{zIndex:1}} >Hi! <br/> Welcome {names} </h1>
-        <TextField id="outlined-basic" label="Name" variant="outlined" defaultValue={""} placeholder='Enter Your Name' type='text' autoFocus autoComplete="off" />
-        <ButtonGroup variant='outlined'>
-          <Button variant="outlined" onClick={() => setNames(document.getElementById("outlined-basic").value)}>Enter</Button>
-        </ButtonGroup>
+        <Image alt='' src='/images/react.png' className={styles.react__img}
+          width={0}
+          height={0}
+          sizes="100vw"
+          style={{ width: '20%', height: 'auto' }} />
+        <Image alt='' src='/images/javascript.png' className={styles.js__img}
+          width={0}
+          height={0}
+          sizes="100vw"
+          style={{ width: '22%', height: 'auto' }} />
+        <h1 style={{ zIndex: 1, textTransform: 'capitalize' }} >Hi! <br /> Welcome {names} </h1>
+        {names == "" && <>
+          <form onSubmit={(e) => { e.preventDefault(); }} style={{ textAlign: 'center' }}>
+            <TextField id="outlined-basic" label="Name" variant="outlined" defaultValue={""} name='Name' placeholder='Enter Your Name' type='text' autoCorrect='off' autoComplete="off" sx={{
+              bgcolor: "AppWorkspace",
+              color: '#fff',
+              borderRadius: '10px',
+            }} InputLabelProps={{
+              sx: { color: '#fff', borderRadius: '10px', },
+            }} InputProps={{
+              sx: { color: '#fff', borderRadius: '10px', },
+            }} /> <br />
+            <Button variant="outlined" type='submit' sx={{ color: '#fff', borderRadius: '10px', mt: '10px' }} onClick={() => setNames(document.getElementById("outlined-basic").value)}>Enter</Button>
+          </form>
+        </>
+        }
       </div>
     </>
   )
+
+
+
 }

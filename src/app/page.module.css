@@ -1,3 +1,5 @@
+
+
 .main__container {
   min-width: 100vw;
   min-height: calc(100vh - 69px);
@@ -8,7 +10,6 @@
   justify-content: center;
   flex-direction: column;
   gap: 10px;
-  background-color: #181818;
   position: relative;
 }
 
@@ -32,7 +33,7 @@
   bottom: 0;
   right: 10%;
   transition: all 0.3s ease-in-out;
-  animation: js_icon_animation 4s infinite ease-in-out;
+  animation: js_icon_animation 5s infinite ease-in-out;
   opacity: 50%;
 }
 
@@ -68,9 +69,9 @@
   ;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (max-width: 768px) {
   .react__img,
   .js__img {
-    height: 50px;
+    width: 65% !important;
   }
 }
