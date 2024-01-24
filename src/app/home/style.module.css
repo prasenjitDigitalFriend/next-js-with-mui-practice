@@ -1,0 +1,96 @@
+
+
+.main__container {
+    min-width: 100vw;
+    min-height: calc(100vh - 69px);
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+  }
+  
+  .main__container h1 {
+    font-size: 60px;
+    text-align: center;
+  }
+  
+  .react__img {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    transform-origin: bottom center;
+    transition: all 0.3s ease-in-out;
+    animation: react_icon_animation 4.5s infinite ease-in-out;
+    opacity: 50%;
+  }
+  
+  .js__img {
+    position: absolute;
+    bottom: 0;
+    right: 10%;
+    transition: all 0.3s ease-in-out;
+    animation: js_icon_animation 5s infinite ease-in-out;
+    opacity: 50%;
+  }
+  
+  @keyframes react_icon_animation {
+    0% {
+      transform: translateY(0px) rotate(-30deg);
+    }
+  
+    50% {
+      transform: translateY(30px) rotate(-30deg);
+    }
+  
+    100% {
+      transform: translateY(-0px) rotate(-30deg);
+    }
+  
+    ;
+  }
+  
+  @keyframes js_icon_animation {
+    0% {
+      transform: translateY(0px) rotate(30deg);
+    }
+  
+    50% {
+      transform: translateY(40px) rotate(30deg);
+    }
+  
+    100% {
+      transform: translateY(-0px) rotate(30deg);
+    }
+  
+    ;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    .react__img,
+    .js__img {
+      width: 65% !important;
+    }
+  }
+
+  .mySwiper {
+    margin-top:40px;
+    width: 100%;
+    height: 60vh;
+    border-radius: 16px;
+  }
+  
+  .mySwiper .swiper-wrapper .swiper-slide {
+    width: 100vw !important;
+    height: 60vh !important;
+  }
+  
+  .mySwiper img {
+    width: 100%;
+    height: 60vh;
+    object-fit: cover;
+  }
+  
