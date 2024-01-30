@@ -47,35 +47,35 @@ export default function Layout({ children, props }) {
         {
             id: 1,
             name: 'Home',
-            icon: <HomeIcon />,
+            icon: <HomeIcon color='primary'/>,
             link: "/admin/dashboard"
         },
         {
             id: 2,
             name: 'All Blogs',
-            icon: <BookIcon />,
+            icon: <BookIcon color='primary'/>,
             link: "/admin/allBlog"
         }, {
             id: 3,
             name: 'Categories',
-            icon: <Category />,
+            icon: <Category color='primary' />,
             link: "/admin/categories"
         },
         {
             id: 4,
             name: 'Logout',
-            icon: <Logout />,
+            icon: <Logout color='error' />,
             link: "/admin/login"
         }
     ]
 
     const drawer = (
         <div>
-            <Toolbar>
-                <Typography variant='h4'>LOGO</Typography>
+            <Toolbar sx={{ backgroundColor: 'transparent' }}>
+                <Typography sx={{ backgroundColor: 'transparent' }} variant='h4'>Edepto</Typography>
             </Toolbar>
             <Divider />
-            <List>
+            <List sx={{ backgroundColor: 'transparent' }}>
                 {menuItems.map((text, index) => (
                     <Link href={text?.link} key={text?.id}>
                         <ListItem disablePadding>
@@ -91,10 +91,12 @@ export default function Layout({ children, props }) {
             </List>
         </div>
     );
+
     return (
         <Box sx={{ display: 'flex' }}>
             {pathname != "/admin/login" && <>
-                <CssBaseline /><AppBar
+                {/* <CssBaseline /> */}
+                {/* <AppBar
                     position="fixed"
                     sx={{
                         width: { sm: `calc(100% - ${drawerWidth}px)` },
@@ -115,7 +117,8 @@ export default function Layout({ children, props }) {
                             Edepto Blog
                         </Typography>
                     </Toolbar>
-                </AppBar><Box
+                </AppBar> */}
+                <Box
                     component="nav"
                     sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
                     aria-label="mailbox folders"
@@ -130,7 +133,7 @@ export default function Layout({ children, props }) {
                         }}
                         sx={{
                             display: { xs: 'block', sm: 'none' },
-                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: 'transparent' },
                         }}
                     >
                         {drawer}
@@ -139,7 +142,7 @@ export default function Layout({ children, props }) {
                         variant="permanent"
                         sx={{
                             display: { xs: 'none', sm: 'block' },
-                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: 'transparent',color:'white' },
                         }}
                         open
                     >
@@ -151,7 +154,7 @@ export default function Layout({ children, props }) {
                 component="main"
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
-                <Toolbar />
+                {/* <Toolbar /> */}
                 {children}
             </Box>
         </Box>
