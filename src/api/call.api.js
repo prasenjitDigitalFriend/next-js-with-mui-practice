@@ -22,7 +22,7 @@ export const postApi = async (postData, url) => {
         });
         if (response.status === 200) {
             if (response.headers['authorization'] != null && response.headers['authorization'] != "") {
-                localStorage.setItem("token-edepto", response.headers['authorization']);
+                localStorage.setItem("token-edepto-blog", response.headers['authorization']);
             }
             if (response.data.responseCode === 501) {
                 localStorage.setItem("admin-id-blog", "NODATA");
@@ -67,7 +67,7 @@ export const imageUploadApi = async (postData, url) => {
         });
         if (response.status === 200) {
             if (response.headers['authorization'] != null && response.headers['authorization'] != "") {
-                localStorage.setItem("token-edepto", response.headers['authorization']);
+                localStorage.setItem("token-edepto-blog", response.headers['authorization']);
             }
             if (response.data.responseCode === 501) {
                 localStorage.setItem("admin-id-blog", "NODATA");
@@ -113,7 +113,7 @@ export const getApi = async (url) => {
         });
         if (response.status === 200) {
             if (response.headers['authorization'] != null && response.headers['authorization'] != "") {
-                localStorage.setItem("token-edepto", response.headers['authorization']);
+                localStorage.setItem("token-edepto-blog", response.headers['authorization']);
             }
             if (response.data.responseCode === 501) {
                 localStorage.setItem("admin-id-blog", "NODATA");
@@ -160,7 +160,7 @@ export const putApi = async (postData, url) => {
         });
         if (response.status === 200) {
             if (response.headers['authorization'] != null && response.headers['authorization'] != "") {
-                localStorage.setItem("token-edepto", response.headers['authorization']);
+                localStorage.setItem("token-edepto-blog", response.headers['authorization']);
             }
             if (response.data.responseCode === 501) {
                 localStorage.setItem("admin-id-blog", "NODATA");

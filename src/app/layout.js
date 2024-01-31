@@ -3,6 +3,10 @@ import './globals.css';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import Script from 'next/script';
 import TanStackProvider from '@/providers/TanStackProvider';
+import { ToastContainer } from 'react-toastify';
+
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,12 +21,12 @@ export default function RootLayout({ children }) {
       <Script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin" />
 
       <body className={inter.className} suppressHydrationWarning={true}>
-
-        <AppRouterCacheProvider>
-          <TanStackProvider>
+      <ToastContainer autoClose={500} />
+        <TanStackProvider>
+          <AppRouterCacheProvider>
             {children}
-          </TanStackProvider>
-        </AppRouterCacheProvider>
+          </AppRouterCacheProvider>
+        </TanStackProvider>
       </body>
     </html>
   )

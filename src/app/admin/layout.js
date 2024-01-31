@@ -19,6 +19,7 @@ import { Book as BookIcon, Category, Home as HomeIcon, Logout } from '@mui/icons
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { GlobalLoading } from 'react-global-loading';
 
 
 const drawerWidth = 240;
@@ -47,13 +48,13 @@ export default function Layout({ children, props }) {
         {
             id: 1,
             name: 'Home',
-            icon: <HomeIcon color='primary'/>,
+            icon: <HomeIcon color='primary' />,
             link: "/admin/dashboard"
         },
         {
             id: 2,
             name: 'All Blogs',
-            icon: <BookIcon color='primary'/>,
+            icon: <BookIcon color='primary' />,
             link: "/admin/allBlog"
         }, {
             id: 3,
@@ -142,7 +143,7 @@ export default function Layout({ children, props }) {
                         variant="permanent"
                         sx={{
                             display: { xs: 'none', sm: 'block' },
-                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: 'transparent',color:'white' },
+                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: 'transparent', color: 'white' },
                         }}
                         open
                     >
@@ -155,6 +156,8 @@ export default function Layout({ children, props }) {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 {/* <Toolbar /> */}
+
+                <GlobalLoading />
                 {children}
             </Box>
         </Box>

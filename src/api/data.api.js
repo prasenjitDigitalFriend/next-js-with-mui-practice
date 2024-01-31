@@ -5,4 +5,7 @@ module.exports = {
     TOKEN: () => {
         return localStorage.getItem("token-edepto-blog")
     },
+    SESSIONID: () => {
+        return localStorage.getItem("sessionData")
+    }
 }

@@ -5,6 +5,11 @@ import dynamic from 'next/dynamic';
 import { Box, Button, MenuItem, Stack, TextField, TextareaAutosize } from '@mui/material';
 import { WithContext as ReactTags } from 'react-tag-input';
 import createBlogStyle from "./style.module.css"
+import { useMutation } from '@tanstack/react-query';
+import { showLoading } from 'react-global-loading';
+import { postApi } from '@/api/call.api';
+import urlApi from '@/api/url.api';
+import { toast } from 'react-toastify';
 
 const CustomEditor = dynamic(() => {
     return import('./../../../Components/CustomEditor');
@@ -39,27 +44,58 @@ export default function CreateBlog() {
 
     const currencies = [
         {
-            value: 'Latest Jobs',
+            value: 1,
+            label: 'Blog',
+        }, {
+            value: 2,
             label: 'Latest Jobs',
         },
-        {
-            value: 'Blog',
-            label: 'Blog',
-        },
     ];
+
+    async function createBlog(postData) {
+        showLoading(true);
+        let resp = await postApi(postData, urlApi.createBlog)
+        showLoading(false);
+        if (resp.responseCode === 200) {
+            toast.success(resp.message);
+        } else {
+            toast.error(resp.message);
+        }
+    }
+
+    const mutation = useMutation({
+        mutationFn: (postData) => {
+            return createBlog(postData)
+        },
+    })
 
     const handleSubmit = (e) => {
         e.preventDefault();
         let postData = {
             title: document.getElementById('post-title').value,
-            summary: document.getElementById('post-summery').value,
-            image: files,
-            tags: tags,
+            description: document.getElementById('post-summery').value,
+            image: "files",
+            keywords: tags,
             category: categoryDropdown,
-            editorValue: editorRef.current.getContent()
+            blogText: editorRef.current.getContent(),
+            status : 1
         }
 
-        console.log(postData);
+        mutation.mutate(postData);
+    }
+
+    const handleDraft = (e)=>{
+        e.preventDefault();
+        let postData = {
+            title: document.getElementById('post-title').value,
+            description: document.getElementById('post-summery').value,
+            image: "files",
+            keywords: tags,
+            category: categoryDropdown,
+            blogText: editorRef.current.getContent(),
+            status : 3
+        }
+        mutation.mutate(postData);
     }
 
     return (
@@ -130,7 +166,7 @@ export default function CreateBlog() {
 
             <div style={{ display: 'flex', justifyContent: 'end' }}>
                 <Stack sx={{ mt: 2 }} direction={"row"} gap={2}>
-                    <Button variant="contained" color="info">
+                    <Button variant="contained" color="info" onClick={handleDraft}>
                         Save Draft
                     </Button>
                     <Button variant="contained" color="success" onClick={handleSubmit}>
