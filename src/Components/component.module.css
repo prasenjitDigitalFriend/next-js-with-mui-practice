@@ -1,0 +1,33 @@
+.login__register__button{
+    background: linear-gradient(90deg, #CFA2E8, #637FEA);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(209, 211, 237, 0.39);
+    border-radius: 500px;
+    font-size: 16px;
+    height: 45px ;
+    line-height: 43px;
+    padding: 0px 60px;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.login__register__button::before {
+    border-radius: 500px;
+}
+
+.login__register__button::before {
+    content: "";
+    z-index: -1;
+    top: 3px;
+    left: 3px;
+    position: absolute;
+    background: #2a2a2a;
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
+}

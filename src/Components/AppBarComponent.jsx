@@ -1,154 +1,137 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
-import { AppBar, Box, Container, IconButton, Toolbar, Typography, Menu, MenuItem, Tooltip, Avatar, TextField, Pagination } from '@mui/material';
+import { AppBar, Box, Container, IconButton, Toolbar, Typography, Menu, MenuItem, Tooltip, Avatar, TextField, Pagination, Drawer } from '@mui/material';
 import { Adb as AdbIcon, Menu as MenuIcon } from '@mui/icons-material';
+import Image from 'next/image';
 
-const pages = ['Home', 'Job Updates', 'Latest Updates'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+import style from "./component.module.css"
+
+import logo from "../../public/images/logo.png";
+import Link from 'next/link';
+
+const pages = ['Home', 'Job Updates'];
 
 const AppBarComponent = () => {
-  const [anchorElNav, setAnchorElNav] = useState(null);
-    const [anchorElUser, setAnchorElUser] = useState(null);
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
+
+    var openApp = function () {
+        window.location.replace('edepto://edepto.in');
     };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+    function detect() {
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+        if (/windows phone/i.test(userAgent)) {
+            return "Windows Phone";
+        }
+
+        if (/android/i.test(userAgent)) {
+            openApp();
+            setTimeout(() => {
+                window.location.replace("https://play.google.com/store/apps/details?id=com.app.edepto&pli=1")
+            }, 700);
+            return "Android";
+        }
+
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            return "iOS";
+        }
+
+        else {
+            window.open("https://test.edepto.in", "_blank");
+        }
+
+        return "unknown";
+    }
+
+
+    const [state, setState] = useState(false);
+
+    const toggleDrawer = (open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        setState(open);
     };
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-  return (
-    <AppBar position="static" sx={{ bgcolor: '#2a2a2a', }}>
-                <Container maxWidth="xl">
-                    <Toolbar disableGutters>
-                        <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="a"
-                            href="#app-bar-with-responsive-menu"
-                            sx={{
-                                mr: 2,
-                                display: { xs: 'none', md: 'flex' },
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
+    return (
+        <AppBar position="static" sx={{ bgcolor: '#2a2a2a', }}>
+            <Container maxWidth="xl">
+                <Toolbar disableGutters>
+                    <Box sx={{
+                        mr: 2,
+                        display: { xs: 'none', md: 'flex' },
+                    }}>
+                        <Link href={'https://www.edepto.in'}>
+                            <Image src={logo} alt='' style={{ maxWidth: 120, height: 'auto' }} />
+                        </Link>
+                    </Box>
+
+                    <Box sx={{
+                        mr: 2,
+                        display: { xs: 'flex', md: 'none' },
+                        flexGrow: 1,
+                    }}>
+
+                        <Link href={'https://www.edepto.in'}>
+                            <Image src={logo} alt='' style={{ maxWidth: 110, height: 'auto' }} />
+                        </Link>
+                    </Box>
+
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                        {pages.map((page) => (
+                            <Button
+                                key={page}
+                                // onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                                {page}
+                            </Button>
+                        ))}
+                    </Box>
+
+                    <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={toggleDrawer(true)}
+                            color="inherit"
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Drawer
+                            anchor={'left'}
+                            open={state}
+                            onClose={toggleDrawer(false)}
+                            PaperProps={{
+                                sx: { backgroundColor: '#3a3a3a' }
                             }}
                         >
-                            LOGO
-                        </Typography>
-
-                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                            <IconButton
-                                size="large"
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleOpenNavMenu}
-                                color="inherit"
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorElNav}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'left',
-                                }}
-                                open={Boolean(anchorElNav)}
-                                onClose={handleCloseNavMenu}
-                                sx={{
-                                    display: { xs: 'block', md: 'none' },
-                                }}
-                                disableScrollLock
-                            >
+                            <Box sx={{ py: 4, px: 3 }}>
                                 {pages.map((page) => (
-                                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">{page}</Typography>
+                                    <MenuItem key={page}
+                                    // onClick={handleCloseNavMenu}
+                                    >
+                                        <Typography textAlign="center" sx={{ fontSize: 16, fontWeight: 600, color: '#fff' }}>{page}</Typography>
                                     </MenuItem>
                                 ))}
-                            </Menu>
-                        </Box>
-                        <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-                        <Typography
-                            variant="h5"
-                            noWrap
-                            component="a"
-                            href="#app-bar-with-responsive-menu"
-                            sx={{
-                                mr: 2,
-                                display: { xs: 'flex', md: 'none' },
-                                flexGrow: 1,
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                            }}
-                        >
-                            LOGO
-                        </Typography>
-                        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                            {pages.map((page) => (
-                                <Button
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
-                                >
-                                    {page}
-                                </Button>
-                            ))}
-                        </Box>
+                                <Box sx={{ mt: 4 }}>
+                                    <button className={style.login__register__button} onClick={()=>detect()}>Login/Register</button>
+                                </Box>
+                            </Box>
+                        </Drawer>
+                    </Box>
 
-                        <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open settings">
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt={'names'} src="/static/images/avatar/2.jpg" />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                sx={{ mt: '45px' }}
-                                id="menu-appbar"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}
-                                disableScrollLock
-                            >
-                                {settings.map((setting) => (
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">{setting}</Typography>
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
-                    </Toolbar>
-                </Container>
-            </AppBar>
-  )
+                    <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+                        <button className={style.login__register__button} onClick={()=>detect()} >Login/Register</button>
+                    </Box>
+
+                </Toolbar>
+            </Container>
+        </AppBar>
+    )
 }
 
 export default AppBarComponent
