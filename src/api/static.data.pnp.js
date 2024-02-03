@@ -1,5 +1,5 @@
 // dev
-export const API = "http://localhost:3003/";
+export const API = "http://192.168.1.34:3003/";
 export const APP_ID = "eriugyvhbfk_dev";
 export const SALT_KEY = "sdfkjghjhdafsg_dev";
 

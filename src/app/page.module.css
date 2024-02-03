@@ -89,10 +89,7 @@
   
 
   .blog_card_container{
-    margin-top: 30px;
-    margin-bottom: 30px;
     display: flex;
-    gap: 30px;
     flex-wrap: wrap;
     margin-right: auto;
     margin-left: auto;

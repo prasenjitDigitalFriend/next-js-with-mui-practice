@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Box, Button, MenuItem, Stack, TextField, TextareaAutosize } from '@mui/material';
 import { WithContext as ReactTags } from 'react-tag-input';
-import createBlogStyle from "./style.module.css"
+import createBlogStyle from "../createBlog/style.module.css"
 import { useMutation } from '@tanstack/react-query';
 import { showLoading } from 'react-global-loading';
 import { postApi } from '@/api/call.api';

@@ -56,11 +56,6 @@ export default function Layout({ children, props }) {
             name: 'All Blogs',
             icon: <BookIcon color='primary' />,
             link: "/admin/allBlog"
-        }, {
-            id: 3,
-            name: 'Categories',
-            icon: <Category color='primary' />,
-            link: "/admin/categories"
         },
         {
             id: 4,
@@ -73,7 +68,7 @@ export default function Layout({ children, props }) {
     const drawer = (
         <div>
             <Toolbar sx={{ backgroundColor: 'transparent' }}>
-                <Typography sx={{ backgroundColor: 'transparent' }} variant='h4'>Edepto</Typography>
+                <Typography sx={{ backgroundColor: 'transparent', color: 'white' }} variant='h4'>Edepto</Typography>
             </Toolbar>
             <Divider />
             <List sx={{ backgroundColor: 'transparent' }}>
@@ -84,7 +79,7 @@ export default function Layout({ children, props }) {
                                 <ListItemIcon>
                                     {text?.icon}
                                 </ListItemIcon>
-                                <ListItemText primary={text?.name} />
+                                <ListItemText primary={text?.name} sx={{ color: 'white' }} />
                             </ListItemButton>
                         </ListItem>
                     </Link>
@@ -97,11 +92,11 @@ export default function Layout({ children, props }) {
         <Box sx={{ display: 'flex' }}>
             {pathname != "/admin/login" && <>
                 {/* <CssBaseline /> */}
-                {/* <AppBar
+                <AppBar
                     position="fixed"
                     sx={{
                         width: { sm: `calc(100% - ${drawerWidth}px)` },
-                        ml: { sm: `${drawerWidth}px` },
+                        ml: { sm: `${drawerWidth}px` }, display: { md: 'none', xl: 'none' }
                     }}
                 >
                     <Toolbar variant='regular' sx={{ background: '#9965f4' }}>
@@ -118,7 +113,7 @@ export default function Layout({ children, props }) {
                             Edepto Blog
                         </Typography>
                     </Toolbar>
-                </AppBar> */}
+                </AppBar>
                 <Box
                     component="nav"
                     sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -134,7 +129,7 @@ export default function Layout({ children, props }) {
                         }}
                         sx={{
                             display: { xs: 'block', sm: 'none' },
-                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: 'transparent' },
+                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: '#171717' },
                         }}
                     >
                         {drawer}
@@ -153,9 +148,9 @@ export default function Layout({ children, props }) {
             </>}
             <Box
                 component="main"
-                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+                sx={{ flexGrow: 1,padding:{md:'15px'}, width: { sm: `calc(100% - ${drawerWidth}px)`,xs:"100%" } }}
             >
-                {/* <Toolbar /> */}
+                <Toolbar sx={{ display: { md: 'none' } }} />
 
                 <GlobalLoading />
                 {children}
