@@ -5,10 +5,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Box } from '@mui/material';
+import { Badge, Box, Chip } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import UpdateStatusModal from './UpdateStatusModal';
 
-const EditBlogCard = ({ blogData }) => {
+const EditBlogCard = ({ blogData,callback}) => {
     const router = useRouter();
     return (
         <>
@@ -16,7 +17,7 @@ const EditBlogCard = ({ blogData }) => {
                 <Card sx={{ position: 'relative', width: '100%' }}>
                     <div style={{
                         position: 'absolute',
-                        backgroundColor: blogData?.status == 1 ? '#77D15C' : blogData?.status == 2 ? "#961502" : '#D1AF06',
+                        backgroundColor: blogData?.status == 1 ? '#77D15C' : blogData?.status == 2 ? "#f76752" : '#D1AF06',
                         right: 0,
                         padding: 5,
                         fontSize: 14,
@@ -29,10 +30,11 @@ const EditBlogCard = ({ blogData }) => {
                     <CardMedia
                         component="img"
                         height="140"
-                        image={"https://source.unsplash.com/random/1920x1080/?car"}
-                        alt="green iguana"
+                        image={blogData?.image}
+                        alt="blog thumbnail"
                     />
                     <CardContent>
+                        <Chip label={blogData?.categoryString} color="primary" size='small' variant="contained" sx={{ fontSize: 12 }} />
                         <Typography gutterBottom variant="h5" component="div">
                             {blogData?.title}
                         </Typography>
@@ -41,9 +43,11 @@ const EditBlogCard = ({ blogData }) => {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small" color='error'>Delete</Button>
-
-                        <Button size="small" color="info" onClick={()=>router.push("/admin/editBlog")}>Edit</Button>
+                        {blogData?.status == 1 && <UpdateStatusModal callback={callback} blogId={blogData?._id} status={3} buttonComponent={<Button size="small" variant='outlined' color='secondary'>{"Make Draft"}</Button>} />}
+                        {blogData?.status == 3 && <UpdateStatusModal callback={callback} blogId={blogData?._id} status={1} buttonComponent={<Button size="small" variant='outlined' color='primary'>{"Make Publish"}</Button>} />}
+                        {blogData?.status == 2 && <UpdateStatusModal callback={callback} blogId={blogData?._id} status={1} buttonComponent={<Button size="small" variant='outlined' color='info'>Restore</Button>} />}
+                        {blogData?.status != 2 && <UpdateStatusModal callback={callback} blogId={blogData?._id} status={2} buttonComponent={<Button size="small" color='error'>Delete</Button>} />}
+                        <Button size="small" color="info" onClick={() => router.push(`/admin/editBlog/${blogData?._id}`)}>Edit</Button>
                     </CardActions>
                 </Card>
             </Box>

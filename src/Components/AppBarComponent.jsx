@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
-import { AppBar, Box, Container, IconButton, Toolbar, Typography, Menu, MenuItem, Tooltip, Avatar, TextField, Pagination, Drawer } from '@mui/material';
-import { Adb as AdbIcon, Menu as MenuIcon } from '@mui/icons-material';
+import { AppBar, Box, Container, IconButton, Toolbar, Typography, MenuItem, Drawer } from '@mui/material';
+import { Menu as MenuIcon } from '@mui/icons-material';
 import Image from 'next/image';
 
 import style from "./component.module.css"
@@ -9,7 +9,18 @@ import style from "./component.module.css"
 import logo from "../../public/images/logo.png";
 import Link from 'next/link';
 
-const pages = ['Home', 'Job Updates'];
+const pages = [
+    {
+        id: 1,
+        title: 'Home',
+        href: '/'
+    },
+    {
+        id: 2,
+        title: 'Job Updates',
+        href: '/jobupdate'
+    }
+];
 
 const AppBarComponent = () => {
 
@@ -80,13 +91,15 @@ const AppBarComponent = () => {
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
+                            
+                            <Link href={page?.href} key={page?.id}>
                             <Button
-                                key={page}
-                                // onClick={handleCloseNavMenu}
+                                key={page?.id}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                {page}
+                                {page?.title}
                             </Button>
+                            </Link>
                         ))}
                     </Box>
 
@@ -111,21 +124,23 @@ const AppBarComponent = () => {
                         >
                             <Box sx={{ py: 4, px: 3 }}>
                                 {pages.map((page) => (
-                                    <MenuItem key={page}
-                                    // onClick={handleCloseNavMenu}
-                                    >
-                                        <Typography textAlign="center" sx={{ fontSize: 16, fontWeight: 600, color: '#fff' }}>{page}</Typography>
-                                    </MenuItem>
+                                    <Link href={page?.href} key={page?.id}>
+                                        <MenuItem
+                                            onClick={() => setState(false)}
+                                        >
+                                            <Typography textAlign="center" sx={{ fontSize: 16, fontWeight: 600, color: '#fff' }}>{page?.title}</Typography>
+                                        </MenuItem>
+                                    </Link>
                                 ))}
                                 <Box sx={{ mt: 4 }}>
-                                    <button className={style.login__register__button} onClick={()=>detect()}>Login/Register</button>
+                                    <button className={style.login__register__button} onClick={() => detect()}>Login/Register</button>
                                 </Box>
                             </Box>
                         </Drawer>
                     </Box>
 
                     <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-                        <button className={style.login__register__button} onClick={()=>detect()} >Login/Register</button>
+                        <button className={style.login__register__button} onClick={() => detect()} >Login/Register</button>
                     </Box>
 
                 </Toolbar>

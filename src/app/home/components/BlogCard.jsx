@@ -3,29 +3,36 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import { Box, CardActionArea } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
-const BlogCard = () => {
+const BlogCard = ({ blogData }) => {
+
+    const router = useRouter();
+
     return (
-        <Card sx={{ maxWidth: 345 }}>
-            <CardActionArea>
-                <CardMedia
-                    component="img"
-                    height="140"
-                    image="https://source.unsplash.com/random/1920x1080/?reptile,lizard"
-                    alt="green iguana"
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        Lizard
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                        species, ranging across all continents except Antarctica
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
-        </Card>
+        <Box sx={{ flex: { md: '0 0 33.333333%' }, width: '100%', p: 2 }} onClick={() => {
+            router.push(`/blog/${blogData?._id}`)
+        }}>
+            <Card sx={{ width: '100%' }}>
+                <CardActionArea>
+                    <CardMedia
+                        component="img"
+                        height="140"
+                        image={blogData?.image}
+                        alt="Blog Thumbnail"
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {blogData.title}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            {blogData?.description}
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
+        </Box>
     )
 }
 

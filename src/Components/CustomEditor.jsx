@@ -14,14 +14,14 @@ window.tinymce = require('tinymce');  // Expose the TinyMCE to the window.
 // Load wiris plugin synchronously.
 require('@wiris/mathtype-tinymce6');
 
-const CustomEditor = ({ editorRef }) => {
+const CustomEditor = ({ editorRef,initialValue }) => {
 
     return (
         <>
             <Editor
                 apiKey='90i3lvwfn05qjimz5kdy54s7zyr220ltk9gq1ymxsgau6dbe'
                 onInit={(evt, editor) => editorRef.current = editor}
-                initialValue=""
+                initialValue={initialValue || ""}
                 id='custom-editor'
                 init={{
                     skin: 'oxide-dark',

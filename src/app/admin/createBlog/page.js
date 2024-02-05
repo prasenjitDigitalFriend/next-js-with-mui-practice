@@ -2,12 +2,12 @@
 
 import React, { useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { Box, Button, MenuItem, Stack, TextField, TextareaAutosize } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, MenuItem, Stack, TextField, TextareaAutosize } from '@mui/material';
 import { WithContext as ReactTags } from 'react-tag-input';
 import createBlogStyle from "./style.module.css"
 import { useMutation } from '@tanstack/react-query';
 import { showLoading } from 'react-global-loading';
-import { postApi } from '@/api/call.api';
+import { imageUploadApi, postApi } from '@/api/call.api';
 import urlApi from '@/api/url.api';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
@@ -45,7 +45,7 @@ export default function CreateBlog() {
 
     const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-    const currencies = [
+    const categories = [
         {
             value: 1,
             label: 'Blog',
@@ -73,34 +73,50 @@ export default function CreateBlog() {
         },
     })
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let postData = {
             title: document.getElementById('post-title').value,
             description: document.getElementById('post-summery').value,
-            image: "files",
+            image:  await imageUpload(),
             keywords: tags,
             category: categoryDropdown,
             blogText: editorRef.current.getContent(),
-            status: 1
+            status: 1,
+            atSlider: document.getElementById('add-slider-checkbox').checked ? 1 : 2
         }
 
         mutation.mutate(postData);
     }
 
-    const handleDraft = (e) => {
+    const handleDraft = async (e) => {
         e.preventDefault();
         let postData = {
             title: document.getElementById('post-title').value,
             description: document.getElementById('post-summery').value,
-            image: "files",
+            image: await imageUpload(),
             keywords: tags,
             category: categoryDropdown,
             blogText: editorRef.current.getContent(),
-            status: 3
+            status: 3,
+            atSlider: 2,
         }
         mutation.mutate(postData);
     }
+
+    const imageUpload = async () => {
+        showLoading(true);
+        let formData = new FormData();
+        formData.append('image', files);
+
+        let resp = await imageUploadApi(formData, urlApi.uploadImage);
+        showLoading(false);
+        if (resp.responseCode === 200) {
+            return resp.data
+        } else {
+            toast.error(resp.message);
+        }
+    };
 
     return (
         <>
@@ -139,12 +155,14 @@ export default function CreateBlog() {
                         onChange={(e) => setCategoryDropdown(e.target.value)}
                         InputLabelProps={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }}
                     >
-                        {currencies.map((option) => (
+                        {categories.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
                                 {option.label}
                             </MenuItem>
                         ))}
                     </TextField>
+
+                    <FormControlLabel control={<Checkbox id='add-slider-checkbox' />} label="Add To Slider" />
                 </Box>
 
                 <Box sx={{ width: { xl: 2 / 5, lg: 2 / 5, md: 2 / 5, sm: 1, xs: 1 } }}>

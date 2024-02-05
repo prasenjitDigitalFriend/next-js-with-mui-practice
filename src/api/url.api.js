@@ -17,7 +17,8 @@ module.exports = {
     //public
     getAllBlog: API+ "public/get-all-public-blog",
     getBlogById: API+ "public/get-blog-by-id/",
+    getSlidersBlog : API+"public/get-sliders-blog",
 
     //media upload
-    uploadImage: API+ "media/upload-image", //TODO
+    uploadImage: API+ "media/upload",
 }

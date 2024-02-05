@@ -1,22 +1,23 @@
 'use client'
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { Box, Button, MenuItem, Stack, TextField, TextareaAutosize } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, MenuItem, Stack, TextField } from '@mui/material';
 import { WithContext as ReactTags } from 'react-tag-input';
-import createBlogStyle from "../createBlog/style.module.css"
-import { useMutation } from '@tanstack/react-query';
+import createBlogStyle from "../../createBlog/style.module.css"
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { showLoading } from 'react-global-loading';
-import { postApi } from '@/api/call.api';
+import { getApi, imageUploadApi, postApi } from '@/api/call.api';
 import urlApi from '@/api/url.api';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 const CustomEditor = dynamic(() => {
-    return import('./../../../Components/CustomEditor');
+    return import('../../../../Components/CustomEditor');
 }, { ssr: false });
 
-export default function CreateBlog() {
+export default function EditBlog({ params }) {
+    console.log(params);
 
     const [files, setFiles] = useState([]);
     const [tags, setTags] = useState([]);
@@ -45,7 +46,7 @@ export default function CreateBlog() {
 
     const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-    const currencies = [
+    const categories = [
         {
             value: 1,
             label: 'Blog',
@@ -55,9 +56,28 @@ export default function CreateBlog() {
         },
     ];
 
+    async function getBlogData() {
+        showLoading(true);
+        let resp = await getApi(urlApi.getAdminBlogById + params.blog);
+        showLoading(false);
+        console.log(resp);
+        if (resp.responseCode === 200) {
+            setTags(resp.data?.keywords);
+            document.getElementById('image-preview').src = resp.data?.image;
+            setCategoryDropdown(resp.data?.category)
+            return resp.data;
+        }
+    }
+
+    const { data: blogData } = useQuery({
+        queryKey: ['blog-details-admin', params.blog],
+        queryFn: getBlogData,
+        staleTime: 5000
+    })
+
     async function createBlog(postData) {
         showLoading(true);
-        let resp = await postApi(postData, urlApi.createBlog)
+        let resp = await postApi(postData, urlApi.updateBlog + params.blog)
         showLoading(false);
         if (resp.responseCode === 200) {
             toast.success(resp.message);
@@ -73,47 +93,61 @@ export default function CreateBlog() {
         },
     })
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let postData = {
             title: document.getElementById('post-title').value,
             description: document.getElementById('post-summery').value,
-            image: "files",
+            image: files.length == 0 ? document.getElementById('image-preview').src : await imageUpload(),
             keywords: tags,
             category: categoryDropdown,
             blogText: editorRef.current.getContent(),
-            status: 1
+            status: 1,
+            atSlider: document.getElementById('add-slider-checkbox').checked ? 1 : 2
         }
-
         mutation.mutate(postData);
     }
 
-    const handleDraft = (e) => {
+    const handleDraft = async (e) => {
         e.preventDefault();
         let postData = {
             title: document.getElementById('post-title').value,
             description: document.getElementById('post-summery').value,
-            image: "files",
+            image: files.length == 0 ? document.getElementById('image-preview').src : await imageUpload(),
             keywords: tags,
             category: categoryDropdown,
             blogText: editorRef.current.getContent(),
-            status: 3
+            status: 3,
+            atSlider: 2
         }
         mutation.mutate(postData);
     }
+
+    const imageUpload = async () => {
+        let formData = new FormData();
+        formData.append('image', files);
+
+        let resp = await imageUploadApi(formData, urlApi.uploadImage);
+        if (resp.responseCode === 200) {
+            return resp.data
+        } else {
+            toast.error(resp.message);
+        }
+    };
 
     return (
         <>
             <Box sx={{ display: 'flex', gap: '15px', flexWrap: { md: 'nowrap', sm: 'wrap', xs: 'wrap' } }}>
                 <Box sx={{ width: { xl: 3 / 5, lg: 3 / 5, md: 3 / 5, sm: 1, xs: 1 } }}>
-                    <TextField label="Blog Title" sx={{ width: 1, mb: 2, '.MuiOutlinedInput-notchedOutline': { borderColor: '#ccc' }, '.mui-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'white' } }} id='post-title'
-                        InputLabelProps={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }} />
+                    <TextField label="Blog Title" sx={{ width: 1, mb: 2, '.MuiOutlinedInput-notchedOutline': { borderColor: '#ccc' }, '.mui-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'white' } }} id='post-title' defaultValue={blogData?.title}
+                        InputLabelProps={{ style: { color: 'white' }, shrink: true }} inputProps={{ style: { color: 'white' } }} />
                     <TextField
                         label="Summery & Description"
                         multiline
+                        defaultValue={blogData?.description}
                         rows={4}
                         sx={{ width: 1, mb: 2, '.MuiOutlinedInput-notchedOutline': { borderColor: '#ccc' }, '.mui-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'white' } }}
-                        InputLabelProps={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'white' }, shrink: true }} inputProps={{ style: { color: 'white' } }}
                         id='post-summery'
                     />
                     <ReactTags
@@ -135,16 +169,19 @@ export default function CreateBlog() {
                         id="post-category"
                         select
                         label="Category"
+                        defaultValue={blogData?.category}
                         sx={{ width: 1, mb: 2, mt: 2, color: 'white', '.mui-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input': { color: 'white' }, '.MuiOutlinedInput-notchedOutline': { borderColor: '#ccc' }, '.mui-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'white' } }}
                         onChange={(e) => setCategoryDropdown(e.target.value)}
-                        InputLabelProps={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'white' }, shrink: true }} inputProps={{ style: { color: 'white' } }}
                     >
-                        {currencies.map((option) => (
+                        {categories.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
                                 {option.label}
                             </MenuItem>
                         ))}
                     </TextField>
+
+                    <FormControlLabel control={<Checkbox id='add-slider-checkbox' defaultChecked={blogData?.atSlider == 1} />} label="Add To Slider" />
                 </Box>
 
                 <Box sx={{ width: { xl: 2 / 5, lg: 2 / 5, md: 2 / 5, sm: 1, xs: 1 } }}>
@@ -166,15 +203,15 @@ export default function CreateBlog() {
 
             <hr style={{ margin: '15px 0px' }} />
 
-            <CustomEditor initialData='' editorRef={editorRef} />
+            <CustomEditor initialValue={blogData?.blogText} editorRef={editorRef} />
 
             <div style={{ display: 'flex', justifyContent: 'end' }}>
                 <Stack sx={{ mt: 2 }} direction={"row"} gap={2}>
                     <Button variant="contained" color="info" onClick={handleDraft}>
-                        Save Draft
+                        Update & Save Draft
                     </Button>
                     <Button variant="contained" color="success" onClick={handleSubmit}>
-                        Publish
+                        Update & Publish
                     </Button>
                 </Stack>
             </div>

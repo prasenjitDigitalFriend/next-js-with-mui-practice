@@ -2,14 +2,13 @@
 
 import React, { useState } from 'react'
 
-import styles from './page.module.css';
+import styles from '../page.module.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import AppBarComponent from '@/Components/AppBarComponent';
 import { Box, Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Stack } from '@mui/material';
-import BlogCard from './home/components/BlogCard';
 import urlApi from '@/api/url.api';
 import { getApi } from '@/api/call.api';
 import { toast } from 'react-toastify';
@@ -18,6 +17,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { debounce } from 'lodash';
 import { Search } from '@mui/icons-material';
+import BlogCard from '../home/components/BlogCard';
 
 const Home = () => {
 
@@ -25,11 +25,12 @@ const Home = () => {
     const [search, setSearch] = useState("");
 
     const fetchBlogs = async () => {
-        let url = `${urlApi.getAllBlog}?page=${page}&limit=9&categoryFilter=1`;
+        let url = `${urlApi.getAllBlog}?page=${page}&limit=9&categoryFilter=2`;
         if (search) {
             url += `&search=${search}`
         }
         const resp = await getApi(url);
+        
         if (resp.responseCode === 200) {
             return resp.data;
         } else {
@@ -39,7 +40,7 @@ const Home = () => {
     }
 
     const { isLoading, data: blogs, error } = useQuery({
-        queryKey: ['blogs-public', page, search],
+        queryKey: ['job-update', page, search],
         queryFn: fetchBlogs,
         placeholderData: keepPreviousData,
         staleTime : 5000

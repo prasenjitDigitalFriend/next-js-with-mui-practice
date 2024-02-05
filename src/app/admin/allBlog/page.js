@@ -34,14 +34,14 @@ export default function AllBlogAdminPage() {
         const resp = await getApi(url);
         if (resp.responseCode === 200) {
             return resp.data;
-        }else{
+        } else {
             toast.error("No More Data Available!!!")
-            setPage(old=>Math.max(old-1,1))
+            setPage(old => Math.max(old - 1, 1));
         }
     }
 
-    const { isLoading, data: blogs, error } = useQuery({
-        queryKey: ['blogs', page, statusFilter, categoryFilter, search],
+    const { isLoading, data: blogs, error,refetch } = useQuery({
+        queryKey: ['blogs-admin', page, statusFilter, categoryFilter, search],
         queryFn: fetchBlogs,
         placeholderData: keepPreviousData,
     });
@@ -79,7 +79,7 @@ export default function AllBlogAdminPage() {
                                 <InputAdornment position="end">
                                     <IconButton
                                         aria-label="toggle password visibility"
-                                        onClick={(e) => { console.log(document.getElementById("search-field").value); }}
+                                        onClick={(e) => { setSearch(document.getElementById("search-field").value); }}
                                         edge="end"
                                     >
                                         {<Search sx={{ color: 'white' }} />}
@@ -106,9 +106,9 @@ export default function AllBlogAdminPage() {
                     <Button variant='contained' color='error' onClick={() => onReset()} >Clear</Button>
                 </Box>
 
-                <Box sx={{ width: { xs: '100%',sm:'auto' } }}>
+                <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
                     <Link href={"/admin/createBlog"}>
-                        <Button variant='contained' sx={{width:'100%'}} startIcon={<Add />} >Create New</Button>
+                        <Button variant='contained' sx={{ width: '100%' }} startIcon={<Add />} >Create New</Button>
                     </Link>
                 </Box>
             </div>
@@ -116,9 +116,7 @@ export default function AllBlogAdminPage() {
                 {
                     blogs?.map((data, index) => {
                         return (
-                            // <Link key={data} href={`/blog/${data}`}>
-                            <EditBlogCard key={data?._id} blogData={data} />
-                            // </Link>
+                            <EditBlogCard key={data?._id} blogData={data} callback={()=>refetch()} />
                         )
                     })
                 }
