@@ -40,10 +40,11 @@ export default function AllBlogAdminPage() {
         }
     }
 
-    const { isLoading, data: blogs, error,refetch } = useQuery({
+    const { data: blogs, refetch } = useQuery({
         queryKey: ['blogs-admin', page, statusFilter, categoryFilter, search],
         queryFn: fetchBlogs,
         placeholderData: keepPreviousData,
+        staleTime: 5000
     });
 
     function onReset() {
@@ -68,7 +69,7 @@ export default function AllBlogAdminPage() {
                         <InputLabel sx={{ color: 'white' }} htmlFor="search-field">Search...</InputLabel>
                         <OutlinedInput
                             sx={{ width: 1, color: 'white', '.MuiOutlinedInput-notchedOutline': { borderColor: '#ccc' }, '.mui-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'white' } }}
-                            InputLabelProps={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }}
+                            inputlabelprops={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }}
                             id="search-field"
                             type='text'
                             onChange={debounce((e) => {
@@ -116,7 +117,7 @@ export default function AllBlogAdminPage() {
                 {
                     blogs?.map((data, index) => {
                         return (
-                            <EditBlogCard key={data?._id} blogData={data} callback={()=>refetch()} />
+                            <EditBlogCard key={data?._id} blogData={data} callback={() => refetch()} />
                         )
                     })
                 }

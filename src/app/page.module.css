@@ -1,133 +1,79 @@
-
-
 .main__container {
-    min-width: 100vw;
-    min-height: calc(100vh - 69px);
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 10px;
-    position: relative;
-  }
-  
-  .main__container h1 {
-    font-size: 60px;
-    text-align: center;
-  }
-  
-  .react__img {
-    position: absolute;
-    top: 0;
-    left: 10%;
-    transform-origin: bottom center;
-    transition: all 0.3s ease-in-out;
-    animation: react_icon_animation 4.5s infinite ease-in-out;
-    opacity: 50%;
-  }
-  
-  .js__img {
-    position: absolute;
-    bottom: 0;
-    right: 10%;
-    transition: all 0.3s ease-in-out;
-    animation: js_icon_animation 5s infinite ease-in-out;
-    opacity: 50%;
-  }
-  
-  @keyframes react_icon_animation {
-    0% {
-      transform: translateY(0px) rotate(-30deg);
-    }
-  
-    50% {
-      transform: translateY(30px) rotate(-30deg);
-    }
-  
-    100% {
-      transform: translateY(-0px) rotate(-30deg);
-    }
-  
-    ;
-  }
-  
-  @keyframes js_icon_animation {
-    0% {
-      transform: translateY(0px) rotate(30deg);
-    }
-  
-    50% {
-      transform: translateY(40px) rotate(30deg);
-    }
-  
-    100% {
-      transform: translateY(-0px) rotate(30deg);
-    }
-  
-    ;
+  min-width: 100vw;
+  min-height: calc(100vh - 69px);
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.main__container h1 {
+  font-size: 60px;
+  text-align: center;
+}
+
+.mySwiper {
+  margin-top: 10px;
+  width: 100%;
+  height: 50vh;
+  border-radius: 16px;
+}
+
+.mySwiper .swiper-wrapper .swiper-slide {
+  width: 100vw !important;
+  height: 60vh !important;
+}
+
+.mySwiper .swiper_inside_container {
+  max-height: 60vh;
+  height: 100%;
+}
+
+.mySwiper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blog_card_container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: auto;
+  margin-left: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination_container {
+  padding: 15px;
+  width: 100%;
+  margin-bottom: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: end;
+}
+
+.pagination button {
+  color: white !important;
+}
+
+.pagination_container nav {
+  max-width: 100vw !important;
+}
+
+
+@media only screen and (max-width: 768px) {
+
+  .pagination ul {
+    flex-wrap: nowrap;
   }
 
-  .mySwiper {
-    margin-top:10px;
-    width: 100%;
-    height: 50vh;
-    border-radius: 16px;
-  }
-  
-  .mySwiper .swiper-wrapper .swiper-slide {
-    width: 100vw !important;
-    height: 60vh !important;
-  }
-  
-  .mySwiper img {
-    width: 100%;
-    height: 60vh;
-    object-fit: cover;
-  }
-  
-
-  .blog_card_container{
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: auto;
-    margin-left: auto;
-    align-items: center;
+  .pagination_container {
     justify-content: center;
   }
-
-  .pagination_container{
-    padding: 15px;
-    width: 100%;
-    margin-bottom: 30px;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    justify-content: end;
-  }
-
-  .pagination button{
-    color: white !important;
-  }
-
-  .pagination_container nav{
-    max-width: 100vw !important;
-  }
-
-  
-  
-  @media only screen and (max-width: 768px) {
-    .react__img,
-    .js__img {
-      width: 65% !important;
-    }
-
-    .pagination ul{
-      flex-wrap: nowrap;
-    }
-    
-    .pagination_container{
-      justify-content: center;
-    }
-  }
+}

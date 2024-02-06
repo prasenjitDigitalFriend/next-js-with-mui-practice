@@ -17,7 +17,6 @@ const CustomEditor = dynamic(() => {
 }, { ssr: false });
 
 export default function EditBlog({ params }) {
-    console.log(params);
 
     const [files, setFiles] = useState([]);
     const [tags, setTags] = useState([]);
@@ -60,7 +59,6 @@ export default function EditBlog({ params }) {
         showLoading(true);
         let resp = await getApi(urlApi.getAdminBlogById + params.blog);
         showLoading(false);
-        console.log(resp);
         if (resp.responseCode === 200) {
             setTags(resp.data?.keywords);
             document.getElementById('image-preview').src = resp.data?.image;
@@ -140,14 +138,14 @@ export default function EditBlog({ params }) {
             <Box sx={{ display: 'flex', gap: '15px', flexWrap: { md: 'nowrap', sm: 'wrap', xs: 'wrap' } }}>
                 <Box sx={{ width: { xl: 3 / 5, lg: 3 / 5, md: 3 / 5, sm: 1, xs: 1 } }}>
                     <TextField label="Blog Title" sx={{ width: 1, mb: 2, '.MuiOutlinedInput-notchedOutline': { borderColor: '#ccc' }, '.mui-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'white' } }} id='post-title' defaultValue={blogData?.title}
-                        InputLabelProps={{ style: { color: 'white' }, shrink: true }} inputProps={{ style: { color: 'white' } }} />
+                        inputlabelprops={{ style: { color: 'white' }, shrink: true }} inputProps={{ style: { color: 'white' } }} />
                     <TextField
                         label="Summery & Description"
                         multiline
                         defaultValue={blogData?.description}
                         rows={4}
                         sx={{ width: 1, mb: 2, '.MuiOutlinedInput-notchedOutline': { borderColor: '#ccc' }, '.mui-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'white' } }}
-                        InputLabelProps={{ style: { color: 'white' }, shrink: true }} inputProps={{ style: { color: 'white' } }}
+                        inputlabelprops={{ style: { color: 'white' }, shrink: true }} inputProps={{ style: { color: 'white' } }}
                         id='post-summery'
                     />
                     <ReactTags
@@ -172,7 +170,7 @@ export default function EditBlog({ params }) {
                         defaultValue={blogData?.category}
                         sx={{ width: 1, mb: 2, mt: 2, color: 'white', '.mui-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input': { color: 'white' }, '.MuiOutlinedInput-notchedOutline': { borderColor: '#ccc' }, '.mui-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'white' } }}
                         onChange={(e) => setCategoryDropdown(e.target.value)}
-                        InputLabelProps={{ style: { color: 'white' }, shrink: true }} inputProps={{ style: { color: 'white' } }}
+                        inputlabelprops={{ style: { color: 'white' }, shrink: true }} inputProps={{ style: { color: 'white' } }}
                     >
                         {categories.map((option) => (
                             <MenuItem key={option.value} value={option.value}>

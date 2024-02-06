@@ -123,13 +123,13 @@ export default function CreateBlog() {
             <Box sx={{ display: 'flex', gap: '15px', flexWrap: { md: 'nowrap', sm: 'wrap', xs: 'wrap' } }}>
                 <Box sx={{ width: { xl: 3 / 5, lg: 3 / 5, md: 3 / 5, sm: 1, xs: 1 } }}>
                     <TextField label="Blog Title" sx={{ width: 1, mb: 2, '.MuiOutlinedInput-notchedOutline': { borderColor: '#ccc' }, '.mui-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'white' } }} id='post-title'
-                        InputLabelProps={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }} />
+                        inputlabelprops={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }} />
                     <TextField
                         label="Summery & Description"
                         multiline
                         rows={4}
                         sx={{ width: 1, mb: 2, '.MuiOutlinedInput-notchedOutline': { borderColor: '#ccc' }, '.mui-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'white' } }}
-                        InputLabelProps={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }}
+                        inputlabelprops={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }}
                         id='post-summery'
                     />
                     <ReactTags
@@ -153,7 +153,7 @@ export default function CreateBlog() {
                         label="Category"
                         sx={{ width: 1, mb: 2, mt: 2, color: 'white', '.mui-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input': { color: 'white' }, '.MuiOutlinedInput-notchedOutline': { borderColor: '#ccc' }, '.mui-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'white' } }}
                         onChange={(e) => setCategoryDropdown(e.target.value)}
-                        InputLabelProps={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }}
+                        inputlabelprops={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }}
                     >
                         {categories.map((option) => (
                             <MenuItem key={option.value} value={option.value}>

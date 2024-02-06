@@ -139,3 +139,9 @@ a {
     max-width: 1320px
   }
 }
+
+/* //swipper buttons */
+
+.swiper-button-next:after, .swiper-rtl .swiper-button-prev:after,.swiper-button-prev:after, .swiper-rtl .swiper-button-next:after{
+  padding: 100px 20px !important;
+}

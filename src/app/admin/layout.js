@@ -47,7 +47,7 @@ export default function Layout({ children, props }) {
     const menuItems = [
         {
             id: 1,
-            name: 'Home',
+            name: 'Dashboard',
             icon: <HomeIcon color='primary' />,
             link: "/admin/dashboard"
         },
@@ -73,7 +73,7 @@ export default function Layout({ children, props }) {
             <Divider />
             <List sx={{ backgroundColor: 'transparent' }}>
                 {menuItems.map((text, index) => (
-                    <Link href={text?.link} key={text?.id}>
+                    <Link href={text?.link} key={text?.id} onClick={handleDrawerClose}>
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>

@@ -18,11 +18,13 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { debounce } from 'lodash';
 import { Search } from '@mui/icons-material';
+import { useRouter } from 'next/navigation';
 
 const Home = () => {
 
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
+    const router = useRouter();
 
     const fetchBlogs = async () => {
         let url = `${urlApi.getAllBlog}?page=${page}&limit=9&categoryFilter=1`;
@@ -38,11 +40,28 @@ const Home = () => {
         }
     }
 
-    const { isLoading, data: blogs, error } = useQuery({
+    const fetchTopBlogs = async () => {
+        let url = `${urlApi.getSlidersBlog}?&categoryFilter=1`;
+        const resp = await getApi(url);
+        if (resp.responseCode === 200) {
+            return resp.data;
+        } else {
+            toast.error("No More Data Available!!!");
+        }
+    }
+
+    const { data: blogs } = useQuery({
         queryKey: ['blogs-public', page, search],
         queryFn: fetchBlogs,
         placeholderData: keepPreviousData,
-        staleTime : 5000
+        staleTime: 5000
+    });
+
+    const { data: topBlogs } = useQuery({
+        queryKey: ['top-blogs'],
+        queryFn: fetchTopBlogs,
+        placeholderData: keepPreviousData,
+        staleTime: 5000
     });
 
     const prevFunc = () => {
@@ -63,7 +82,7 @@ const Home = () => {
                         <InputLabel sx={{ color: 'white' }} htmlFor="search-field">Search...</InputLabel>
                         <OutlinedInput
                             sx={{ width: 1, color: 'white', '.MuiOutlinedInput-notchedOutline': { borderColor: '#ccc' }, '.mui-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'white' } }}
-                            InputLabelProps={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }}
+                            inputlabelprops={{ style: { color: 'white' } }} inputProps={{ style: { color: 'white' } }}
                             id="search-field"
                             type='text'
                             onChange={debounce((e) => {
@@ -87,7 +106,7 @@ const Home = () => {
                 </Box>
 
                 {search.length == 0 && <Swiper
-                    spaceBetween={50}
+                    // spaceBetween={50}
                     loop
                     navigation={true}
                     autoplay={true}
@@ -95,19 +114,31 @@ const Home = () => {
                     // onSlideChange={() => console.log('slide change')}
                     // onSwiper={(swiper) => console.log(swiper)}
                     className={styles.mySwiper}
+                    slidesPerView={1}
                 >
-                    <SwiperSlide>
-                        <img src='https://source.unsplash.com/random/1920x1080/?wallpaper,landscape' />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <img src='https://source.unsplash.com/random/1920x1080/?wallpaper,car' />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <img src='https://source.unsplash.com/random/1920x1080/?wallpaper,tree' />
-                    </SwiperSlide>
-                    <SwiperSlide>
-                        <img src='https://source.unsplash.com/random/1920x1080/?wallpaper,space' />
-                    </SwiperSlide>
+                    {
+                        topBlogs?.map((data, index) => {
+                            return (
+                                <SwiperSlide key={index}>
+                                    <div style={{ position: "relative" }} className={styles?.swiper_inside_container}>
+                                        <img src={data?.image} alt="" />
+                                        <div style={{
+                                            position: 'absolute',
+                                            height: '100%',
+                                            width: '100%',
+                                            background: 'linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%)',
+                                            top: 0,
+                                            left: 0,
+                                        }}>
+                                            <Button sx={{ position: 'absolute', bottom: 30, left: '50%', transform: 'translateX(-50%)' }} variant='contained' onClick={() => {
+                                                router.push(`/blog/${data?._id}`)
+                                            }}>Read Full Blog</Button>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            )
+                        })
+                    }
                 </Swiper>}
 
                 <div className={styles.blog_card_container}>
